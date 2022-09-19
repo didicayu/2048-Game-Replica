@@ -10,6 +10,8 @@ public class Tile : MonoBehaviour
     public Color[] squareColors = new Color[11];
     public SpriteRenderer spriteRenderer;
 
+    [SerializeField] private Animator m_Animator;
+
     private void Start() {
 
         if(Random.Range(0f,1f) < 0.1f){
@@ -21,6 +23,7 @@ public class Tile : MonoBehaviour
         }
 
         updateTile();
+        popAnimation();
     }
 
     public void updateTile(){
@@ -47,5 +50,9 @@ public class Tile : MonoBehaviour
             return false;
  
         return (int)(Mathf.Ceil((Mathf.Log(n) / Mathf.Log(2)))) == (int)(Mathf.Floor(((Mathf.Log(n) / Mathf.Log(2)))));
+    }
+
+    public void popAnimation(){
+        m_Animator.SetTrigger("Animate");
     }
 }

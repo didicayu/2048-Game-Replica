@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 8967867553569654559}
   - component: {fileID: 8815708222871122441}
   - component: {fileID: 1563605642002291482}
+  - component: {fileID: 6692743049548025788}
   m_Layer: 0
   m_Name: tile
   m_TagString: Untagged
@@ -266,6 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31140abc3b8afaf4a88deeffc96caed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  value: 0
   textValue: {fileID: 4954701148170545905}
   squareColors:
   - {r: 0.93333334, g: 0.89411765, b: 0.85490197, a: 1}
@@ -280,3 +282,23 @@ MonoBehaviour:
   - {r: 0.92941177, g: 0.77254903, b: 0.24705882, a: 1}
   - {r: 0.92941177, g: 0.7607843, b: 0.1764706, a: 1}
   spriteRenderer: {fileID: 8815708222871122441}
+  m_Animator: {fileID: 6692743049548025788}
+--- !u!95 &6692743049548025788
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9130746673741751653}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b27f7e48bc6bd814ea6740082e83a1f2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

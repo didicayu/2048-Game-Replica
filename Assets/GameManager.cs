@@ -148,6 +148,7 @@ public class GameManager : MonoBehaviour
 
             newTile.value += oldTile.value;
             newTile.updateTile();
+            newTile.popAnimation(); //Animation that makes the new Tile pop
 
             Destroy(oldTile.gameObject); //Destroys the old tile and then we set the value of the remaining tile to it's new value
 
