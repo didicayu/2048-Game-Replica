@@ -10,19 +10,22 @@ public class Tile : MonoBehaviour
     public Color[] squareColors = new Color[11];
     public SpriteRenderer spriteRenderer;
 
+    [HideInInspector] public bool justMerged;
+
     [SerializeField] private Animator m_Animator;
 
     private void Start() {
-
+        
+        /*
         if(Random.Range(0f,1f) < 0.1f){
             value = 4;
         }
         
         else{
             value = 2;
-        }
-
-        updateTile();
+        }*/
+        justMerged = false;
+        setValue(getStartingValue());
         popAnimation();
     }
 
@@ -54,5 +57,21 @@ public class Tile : MonoBehaviour
 
     public void popAnimation(){
         m_Animator.SetTrigger("Animate");
+    }
+
+    public int getStartingValue(){
+
+        if(Random.Range(0f,1f) < 0.1f){
+            return 4;
+        }
+        
+        else{
+            return 2;
+        }
+    }
+
+    public void setValue(int Tilevalue){
+        value = Tilevalue;
+        updateTile();
     }
 }

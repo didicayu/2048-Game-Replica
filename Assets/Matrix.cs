@@ -203,7 +203,28 @@ public class Matrix : MonoBehaviour
             for (int j = 0; j < h; j++)
             {
                 matrix[i,j] = new GameObject(((j + i * w)+1).ToString());
+                matrix[i,j].transform.position = new Vector2(i,j);
             }
         }
+    }
+
+    public static void debugPriorityQueueMatrix(GameObject[,] matrix){
+
+        int w = matrix.GetLength(0);
+        int h = matrix.GetLength(1);
+
+        string logOutput = "Priority Queue: ";
+
+        for (int i = 0; i < w; i++)
+        {
+            for (int j = 0; j < h; j++)
+            {
+                if(matrix[i,j] != null){
+                    logOutput += $"<color=cyan>{(Vector2)matrix[i,j].transform.position} = {((j + i * w)+1).ToString()}</color> <color=red>|</color> ";    
+                }
+            }
+        }
+
+        Debug.Log(logOutput);
     }
 }

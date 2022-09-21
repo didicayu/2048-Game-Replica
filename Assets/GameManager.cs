@@ -31,20 +31,39 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical"));
-        //Debug.Log(movementDirection);
-        makeAMove(movementDirection); //Sends movement vector to check if we can make the movement
+        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)){
+            Vector2 movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical"));
+            //Debug.Log(movementDirection);
+
+            makeAMove(movementDirection); //Sends movement vector to check if we can make the movement
+        }
+
+        if(Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D)){
+            lastCaseNum = 0;
+            updateMergedStates();
+        }     
 
         if(Input.GetKeyDown(KeyCode.F3)){
             Matrix.logDebugMatrix(_2DusedTiles);
         }
         if(Input.GetKeyDown(KeyCode.F4)){
-            Matrix.logDebugMatrix(tilesPriorityQueue);
+            //Matrix.logDebugMatrix(tilesPriorityQueue);
+            Matrix.debugPriorityQueueMatrix(tilesPriorityQueue);
+        }
+        if(Input.GetKeyDown(KeyCode.F5)){
+            spawnTile(new Vector2(0,0),2);
+            spawnTile(new Vector2(1,0),2);
+            spawnTile(new Vector2(2,0),2);
+            spawnTile(new Vector2(3,0),2);
+        }
+        if(Input.GetKeyDown(KeyCode.F6)){
+            //spawnTile(new Vector2(0,0),2);
+            spawnTile(new Vector2(0,1),2);
+            spawnTile(new Vector2(0,2),2);
+            spawnTile(new Vector2(0,3),2);
         }
 
-        if(Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D)){
-            lastCaseNum = 0;
-        }
+        
     }
 
     void makeAMove(Vector2 dir){
@@ -144,10 +163,11 @@ public class GameManager : MonoBehaviour
         Tile oldTile = tile.GetComponent<Tile>();
         Tile newTile = _2DusedTiles[x, y].GetComponent<Tile>();
 
-        if(oldTile.value == newTile.value){ // will only merge tiles with same value
+        if(oldTile.value == newTile.value && !newTile.justMerged && !oldTile.justMerged){ // will only merge tiles with same value
 
-            newTile.value += oldTile.value;
-            newTile.updateTile();
+            newTile.justMerged = true;
+            newTile.setValue(newTile.value + oldTile.value);
+
             newTile.popAnimation(); //Animation that makes the new Tile pop
 
             Destroy(oldTile.gameObject); //Destroys the old tile and then we set the value of the remaining tile to it's new value
@@ -208,8 +228,18 @@ public class GameManager : MonoBehaviour
         canSpawnNewTile = true; //If we have updated the grid we know a new tile can be spawned
     }
 
-    GameObject spawnTile(){
+    private GameObject spawnTile(){
         var spawnedTile = Instantiate(_tile, getRandomTilePos(),Quaternion.identity);
+        updateGameState(spawnedTile);
+        return spawnedTile;
+    }
+
+    private GameObject spawnTile(Vector2 pos, int value){
+        var spawnedTile = Instantiate(_tile, pos,Quaternion.identity);
+        var tileComponent = spawnedTile.GetComponent<Tile>();
+        
+        tileComponent.value = value;
+        tileComponent.updateTile();
         updateGameState(spawnedTile);
         return spawnedTile;
     }
@@ -226,6 +256,19 @@ public class GameManager : MonoBehaviour
         }
 
         return new Vector2(x,y);
+    }
+
+    private void updateMergedStates(){
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                var tile = _2DusedTiles[i,j];
+                if(tile != null){
+                    tile.GetComponent<Tile>().justMerged = false;
+                }
+            }
+        }
     }
 
     int arrayContainsV2(Vector2[] arr, Vector2 v2){

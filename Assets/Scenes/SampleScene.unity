@@ -282,6 +282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1568ed5e7dcafa24a85a348a58457e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 0
+  debugMode: 1
   debugWidth: 4
   DebugHeight: 4
